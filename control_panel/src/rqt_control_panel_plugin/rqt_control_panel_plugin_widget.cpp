@@ -37,6 +37,12 @@ rqt_control_panel_plugin_widget::rqt_control_panel_plugin_widget(const ros::Node
 
   jointStateSubscriber_ = nodehandle_.subscribe("/joint_states", 1, &rqt_control_panel_plugin_widget::jointStateCallback, this);
 
+  FootContactSub_ = nodehandle_.subscribe("/bumper_sensor_filter_node/foot_contacts", 1, &rqt_control_panel_plugin_widget::FootContactCallback, this);
+
+  icon_green_path = QString::fromStdString(ros::package::getPath("rqt_control_panel_plugin") + "/ui/resource/greensmallball.png");
+  icon_red_path = QString::fromStdString(ros::package::getPath("rqt_control_panel_plugin") + "/ui/resource/red_ball.png");
+  green_qpixmap = QPixmap(icon_green_path);
+  red_qpixmap = QPixmap(icon_red_path);
 }
 
 rqt_control_panel_plugin_widget::~rqt_control_panel_plugin_widget()
@@ -46,6 +52,44 @@ rqt_control_panel_plugin_widget::~rqt_control_panel_plugin_widget()
 
 void rqt_control_panel_plugin_widget::updateCommandLoop()
 {
+
+}
+
+void rqt_control_panel_plugin_widget::FootContactCallback(const sim_assiants::FootContactsConstPtr &foot_contact)
+{
+    lf_leg_contact_status_ = foot_contact->foot_contacts[0].is_contact;
+    lh_leg_contact_status_ = foot_contact->foot_contacts[1].is_contact;
+    rh_leg_contact_status_ = foot_contact->foot_contacts[2].is_contact;
+    rf_leg_contact_status_ = foot_contact->foot_contacts[3].is_contact;
+    ui->rf_leg_contact->display(lf_leg_contact_status_);
+    ui->rh_leg_contact->display(rh_leg_contact_status_);
+    ui->lf_leg_contact->display(lf_leg_contact_status_);
+    ui->lh_leg_contact->display(lh_leg_contact_status_);
+
+    if( lf_leg_contact_status_ == 1)
+    {
+        ui->lf_green_ball->setPixmap(green_qpixmap);
+    }else {
+        ui->lf_green_ball->setPixmap(red_qpixmap);
+    }
+    if( lh_leg_contact_status_ == 1)
+    {
+        ui->lh_green_ball->setPixmap(green_qpixmap);
+    }else {
+        ui->lh_green_ball->setPixmap(red_qpixmap);
+    }
+    if( rh_leg_contact_status_ == 1)
+    {
+        ui->rh_green_ball->setPixmap(green_qpixmap);
+    }else {
+        ui->rh_green_ball->setPixmap(red_qpixmap);
+    }
+    if( rf_leg_contact_status_ == 1)
+    {
+        ui->rf_green_ball->setPixmap(green_qpixmap);
+    }else {
+        ui->rf_green_ball->setPixmap(red_qpixmap);
+}
 
 }
 
@@ -480,8 +524,6 @@ void rqt_control_panel_plugin_widget::on_resetJointPostionButton_clicked()
   ui->lh_joint_positon_1->setValue(0);
   ui->lh_joint_positon_2->setValue(-1.2);
   ui->lh_joint_positon_3->setValue(2.4);
-
-
 }
 
 void rqt_control_panel_plugin_widget::on_resetJointVelocityButton_clicked()
@@ -540,3 +582,4 @@ void rqt_control_panel_plugin_widget::on_setInitialJointPosition_clicked()
   ui->lh_joint_positon_2->setValue(-1.4);
   ui->lh_joint_positon_3->setValue(2.4);
 }
+

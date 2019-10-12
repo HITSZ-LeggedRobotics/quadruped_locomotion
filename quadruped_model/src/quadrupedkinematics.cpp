@@ -151,11 +151,10 @@ bool QuadrupedKinematics::FowardKinematicsSolve(const JointPositionsLimb& joint_
   {
     joints(i) = joint_position(i);
   }
-<<<<<<< HEAD
-=======
+
 //  cout<<LF_Chain.getNrOfSegments()<<endl;
   // cout<<joints.data<<endl;
->>>>>>> 157af038605185025808fe7c7ab73730ea5ac357
+
   switch (limb) {
     case LimbEnum::LF_LEG:
       {

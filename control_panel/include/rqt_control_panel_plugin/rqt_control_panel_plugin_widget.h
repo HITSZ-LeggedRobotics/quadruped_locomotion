@@ -2,8 +2,12 @@
 #define CONTROL_PANEL_PLUGIN_WIDGET
 
 #include <QWidget>
+#include <QtGui>
+#include <QLCDNumber>
+#include <QLabel>
 #include "iostream"
 #include "ros/ros.h"
+#include "ros/package.h"
 
 #include "controller_manager_msgs/SwitchController.h"
 #include "controller_manager_msgs/ListControllers.h"
@@ -13,6 +17,8 @@
 #include "sensor_msgs/JointState.h"
 #include "std_msgs/Float64MultiArray.h"
 #include "geometry_msgs/Twist.h"
+#include "sim_assiants/FootContact.h"
+#include "sim_assiants/FootContacts.h"
 
 #include "boost/thread.hpp"
 
@@ -69,8 +75,7 @@ private slots:
   void on_resetJointEffortButton_clicked();
 
   void on_setInitialJointPosition_clicked();
-
-private:
+  private:
   Ui::rqt_control_panel_plugin_widget *ui;
   ros::NodeHandle nodehandle_;
 
@@ -88,6 +93,8 @@ private:
   ros::Publisher jointEffortCommandPublisher_;
   ros::Publisher baseVelocityCommandPublisher_;
 
+  ros::Subscriber FootContactSub_;
+
   ros::Subscriber jointStateSubscriber_;
 
   ControlMethod control_method_;
@@ -101,6 +108,11 @@ private:
   bool updateJointState();
 
   void jointStateCallback(const sensor_msgs::JointState::ConstPtr& joint_state);
+  void FootContactCallback(const sim_assiants::FootContactsConstPtr& foot_contacts);
+
+  bool lf_leg_contact_status_, lh_leg_contact_status_, rh_leg_contact_status_, rf_leg_contact_status_;
+  QString icon_green_path, icon_red_path;
+  QPixmap green_qpixmap, red_qpixmap;
 };
 
 #endif // CONTROL_PANEL_PLUGIN_WIDGET

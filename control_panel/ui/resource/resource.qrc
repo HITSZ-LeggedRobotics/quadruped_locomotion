@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/new/icons">
+        <file>greenball.jpg</file>
+        <file>redball.png</file>
+    </qresource>
+</RCC>

@@ -44,13 +44,9 @@ public:
 //    ROS_ERROR("In action server thread");
     if(use_gazebo){
       adapter.reset(AdapterRos_.getAdapterPtr());
-<<<<<<< HEAD
       AdapterRos_.subscribeToRobotState();//moren parameters to /gazebo/robot_state, and update robot state.
-=======
-//      ROS_ERROR("In action server thread");
-      AdapterRos_.subscribeToRobotState();
-//      ROS_ERROR("In action server thread");
->>>>>>> 157af038605185025808fe7c7ab73730ea5ac357
+
+
     } else {
       adapter.reset(adapter_loader.createUnmanagedInstance("free_gait_ros/AdapterDummy"));
     };
@@ -59,14 +55,10 @@ public:
     parameters.reset(new StepParameters());
     completer.reset(new StepCompleter(*parameters, *adapter));
     computer.reset(new StepComputer());
-<<<<<<< HEAD
+
 
     AdapterRos_.updateAdapterWithState();//this state is /gazebo/robot_state
     //in fact, this is to sync state and /gazebo/robot_state
-=======
-//    ROS_ERROR("In action server thread");
-    AdapterRos_.updateAdapterWithState();
->>>>>>> 157af038605185025808fe7c7ab73730ea5ac357
     //! WSHY: get the initial pose and set to the fisrt pose command
     state->setPositionWorldToBaseInWorldFrame(AdapterRos_.getAdapter().getPositionWorldToBaseInWorldFrame());
     state->setOrientationBaseToWorld(AdapterRos_.getAdapter().getOrientationBaseToWorld());
@@ -164,9 +156,6 @@ public:
               rosPublisher->publish(adapter->getState(), executor->getQueue());
               }
             lock.unlock();
-<<<<<<< HEAD
-            } else{
-=======
             } else{ // directly publish current state
 //              state->setPositionWorldToBaseInWorldFrame(AdapterRos_.getAdapter().getPositionWorldToBaseInWorldFrame());
 //              state->setOrientationBaseToWorld(AdapterRos_.getAdapter().getOrientationBaseToWorld());
@@ -177,7 +166,6 @@ public:
 //                rosPublisher->publish(*state);
 //                }
               rosPublisher->publish();
->>>>>>> 157af038605185025808fe7c7ab73730ea5ac357
             }
 
           rate.sleep();

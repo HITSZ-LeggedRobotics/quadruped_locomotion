@@ -389,15 +389,13 @@ void QuadrupedState::setCurrentLimbJoints(JointPositions all_joints_position)
       Pose foot_pose;
       FowardKinematicsSolve(current_limb_joints_.at(leg.first), leg.first, foot_pose);
       footPoseInBaseFrame_[leg.first] = foot_pose;
-<<<<<<< HEAD
-    }
-=======
-  //      foot_positions_[leg.first] = foot_pose.getPosition();
 
     }
+
+  //      foot_positions_[leg.first] = foot_pose.getPosition();
   //  setSupportFootStance(foot_positions_);
 
->>>>>>> 157af038605185025808fe7c7ab73730ea5ac357
+
 }
 
 

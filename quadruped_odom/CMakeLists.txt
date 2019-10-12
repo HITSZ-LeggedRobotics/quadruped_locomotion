@@ -21,6 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
 #  free_gait_ros
   free_gait_core
 #  orocos_kdl
+  kindr_ros
 )
 find_package(Eigen3 REQUIRED)
 find_package(sophus REQUIRED)
@@ -53,6 +54,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
+  ${kindr_ros_INCLUDE_DIRS}
 #  ${RBDL_INCLUDE_DIR}
 )
 
